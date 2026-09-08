@@ -1,0 +1,33 @@
+{
+  "name": "didiplugins",
+  "title": "DidiPlugins",
+  "description": "Audio Plugins for Music Production",
+  "version": "1.0.0",
+  "icon": "🎛️",
+  "plugins": [
+    {
+      "name": "Board",
+      "version": "1.1.0",
+      "type": "VST3 Grid Hotkey Plugin",
+      "description": "Customizable grid interface for triggering keyboard shortcuts in your DAW"
+    },
+    {
+      "name": "Namsound",
+      "version": "1.55",
+      "type": "Guitar/Bass Effects with Neural Amp Modeler",
+      "description": "Neural amp modeling with signal-graph interface for guitar and bass"
+    },
+    {
+      "name": "Spectro",
+      "version": "1.0.0",
+      "type": "Real-time Spectral Analyzer",
+      "description": "Professional FFT spectral analyzer VST3 plugin and standalone"
+    },
+    {
+      "name": "TranceG",
+      "version": "1.0.0",
+      "type": "Trance Gate Sequencer",
+      "description": "Step-sequenced trance gate with up to 32 steps and ADSR envelope"
+    }
+  ]
+}

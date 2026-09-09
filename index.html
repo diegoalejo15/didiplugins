@@ -44,8 +44,8 @@
                 <li>Undo/Redo, presets, color themes</li>
               </ul>
               <div class="plugin-meta">
-                <span class="plugin-version">Version 1.1.0</span>
-                <a href="#" class="download-btn">DOWNLOAD</a>
+                <span class="plugin-version">Version 1.2.0</span>
+                <a href="#" id="dl-board" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
               </ul>
               <div class="plugin-meta">
                 <span class="plugin-version">Version 1.55</span>
-                <a href="#" class="download-btn">DOWNLOAD</a>
+                <a href="#" id="dl-namsound" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@
               </ul>
               <div class="plugin-meta">
                 <span class="plugin-version">Version 1.0.0</span>
-                <a href="#" class="download-btn">DOWNLOAD</a>
+                <a href="#" id="dl-spectro" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
           </div>
@@ -108,7 +108,31 @@
               </ul>
               <div class="plugin-meta">
                 <span class="plugin-version">Version 1.0.0</span>
-                <a href="#" class="download-btn">DOWNLOAD</a>
+                <a href="#" id="dl-tranceg" class="download-btn">DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="plugin-card">
+            <div class="plugin-image">
+              <img src="Cubase tools.png" alt="Cubase Tools" class="plugin-img">
+            </div>
+            <div class="plugin-info">
+              <h3 class="plugin-name">CUBASE TOOLS</h3>
+              <p class="plugin-description">
+                These tools have been made for Cubase Pro v15 but most of things will work for other versions too.<br><br>
+                Cubase Pro menus<br>
+                Search for Cubase commands, this HTML returns the menu and submenu where that command is placed.<br><br>
+                Cubase key commands<br>
+                Load the key commands file and access all the assigned key combinations and which combinations are free to use.<br><br>
+                Cubase Pro preferences<br>
+                This HTML shows where each parameter is stored in preferences menu.<br><br>
+                Plugin manager<br>
+                Groups by category, sorts and search when the plugin list is long.
+              </p>
+              <div class="plugin-meta">
+                <span class="plugin-version">Version 1.0.0</span>
+                <a href="#" id="Cubase tools" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
           </div>
@@ -128,5 +152,25 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    async function setLatestDownload(buttonId, prefix) {
+      try {
+        const res = await fetch('https://api.github.com/repos/diegoalejo15/didiplugins/releases');
+        const releases = await res.json();
+        const match = releases.find(r => r.tag_name.startsWith(prefix));
+        if (match && match.assets.length > 0) {
+          document.getElementById(buttonId).href = match.assets[0].browser_download_url;
+        }
+      } catch (err) {
+        console.error('No se pudo obtener el release para', prefix, err);
+      }
+    }
+    setLatestDownload('dl-board', 'Board-');
+    setLatestDownload('dl-namsound', 'Namsound-');
+    setLatestDownload('dl-spectro', 'Spectro-');
+    setLatestDownload('dl-tranceg', 'TranceG-');
+    setLatestDownload('Cubase tools', 'Cubase-tools');
+  </script>
 </body>
 </html>

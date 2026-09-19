@@ -150,8 +150,10 @@
     <div class="feedback-modal-backdrop" data-close-feedback></div>
     <div class="feedback-modal-card">
       <button type="button" class="feedback-close" id="feedback-close" aria-label="Close">&times;</button>
-      <h3 id="feedback-modal-title">Leave feedback</h3>
-      <p class="feedback-subtitle">Tell us what you think, report a bug or suggest a feature.</p>
+      <div id="feedback-header">
+        <h3 id="feedback-modal-title">Leave feedback</h3>
+        <p class="feedback-subtitle">Tell us what you think, report a bug or suggest a feature.</p>
+      </div>
       <form id="feedback-form" novalidate>
         <input type="checkbox" name="botcheck" class="feedback-honeypot" tabindex="-1" autocomplete="off">
         <div class="feedback-field">
@@ -169,6 +171,12 @@
         <button type="submit" class="download-btn feedback-submit" id="feedback-submit">SEND</button>
         <p class="feedback-status" id="feedback-status" role="status"></p>
       </form>
+      <div class="feedback-success" id="feedback-success" hidden>
+        <div class="feedback-success-icon" aria-hidden="true">✓</div>
+        <h4>Message sent successfully!</h4>
+        <p>Thank you for your feedback. Your message has been received.</p>
+        <button type="button" class="download-btn" id="feedback-success-close">CLOSE</button>
+      </div>
     </div>
   </div>
 
@@ -206,14 +214,33 @@
     // ─── Feedback form (Web3Forms) ───
     // Los envíos llegan al correo configurado en Web3Forms.
     // Esta key solo permite ENVIAR mensajes; nunca expone la casilla de destino.
-    const FEEDBACK_ACCESS_KEY = 'e78047a0-6ec5-4d43-9f5b-4a7cb570951c'; // ← reemplazar por tu Access Key de https://web3forms.com
+    const FEEDBACK_ACCESS_KEY = 'e78047a0-6ec5-4d43-9f5b-4a7cb570951c'; // Web3Forms (los envíos llegan al correo configurado allí)
 
     const feedbackModal = document.getElementById('feedback-modal');
     const feedbackForm = document.getElementById('feedback-form');
     const feedbackStatus = document.getElementById('feedback-status');
     const feedbackSubmit = document.getElementById('feedback-submit');
+    const feedbackHeader = document.getElementById('feedback-header');
+    const feedbackSuccess = document.getElementById('feedback-success');
+    const feedbackSuccessClose = document.getElementById('feedback-success-close');
+
+    function showSuccessView() {
+      feedbackHeader.hidden = true;
+      feedbackForm.hidden = true;
+      feedbackSuccess.hidden = false;
+      feedbackSuccessClose.focus();
+    }
+
+    function resetFeedbackView() {
+      feedbackHeader.hidden = false;
+      feedbackForm.hidden = false;
+      feedbackSuccess.hidden = true;
+      feedbackStatus.textContent = '';
+      feedbackStatus.className = 'feedback-status';
+    }
 
     function openFeedback() {
+      resetFeedbackView();
       feedbackModal.hidden = false;
       document.body.style.overflow = 'hidden';
       setTimeout(() => document.getElementById('fb-title').focus(), 50);
@@ -226,6 +253,7 @@
 
     document.getElementById('feedback-open').addEventListener('click', openFeedback);
     document.getElementById('feedback-close').addEventListener('click', closeFeedback);
+    feedbackSuccessClose.addEventListener('click', closeFeedback);
     feedbackModal.querySelector('[data-close-feedback]').addEventListener('click', closeFeedback);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !feedbackModal.hidden) closeFeedback();
@@ -273,10 +301,8 @@
         });
         const data = await res.json();
         if (res.ok && data.success) {
-          feedbackStatus.textContent = 'Thank you! Your feedback has been sent.';
-          feedbackStatus.className = 'feedback-status success';
           feedbackForm.reset();
-          setTimeout(closeFeedback, 1800);
+          showSuccessView();
         } else {
           throw new Error(data.message || 'Failed to send.');
         }

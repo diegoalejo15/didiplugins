@@ -44,7 +44,7 @@
                 <li>Undo/Redo, presets, color themes</li>
               </ul>
               <div class="plugin-meta">
-                <span class="plugin-version">Version 1.5.0</span>
+                <span class="plugin-version">Version 1.2.0</span>
                 <a href="#" id="dl-board" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
@@ -137,9 +137,40 @@
             </div>
           </div>
         </div>
+
+        <div class="feedback-cta">
+          <button type="button" id="feedback-open" class="feedback-btn">Leave feedback</button>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- Feedback Modal -->
+  <div class="feedback-modal" id="feedback-modal" role="dialog" aria-modal="true" aria-labelledby="feedback-modal-title" hidden>
+    <div class="feedback-modal-backdrop" data-close-feedback></div>
+    <div class="feedback-modal-card">
+      <button type="button" class="feedback-close" id="feedback-close" aria-label="Close">&times;</button>
+      <h3 id="feedback-modal-title">Leave feedback</h3>
+      <p class="feedback-subtitle">Tell us what you think, report a bug or suggest a feature.</p>
+      <form id="feedback-form" novalidate>
+        <input type="checkbox" name="botcheck" class="feedback-honeypot" tabindex="-1" autocomplete="off">
+        <div class="feedback-field">
+          <label for="fb-title">Title</label>
+          <input type="text" id="fb-title" name="title" maxlength="120" placeholder="e.g. Feature request for BOARD" required>
+        </div>
+        <div class="feedback-field">
+          <label for="fb-email">Your email</label>
+          <input type="email" id="fb-email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="feedback-field">
+          <label for="fb-message">Message</label>
+          <textarea id="fb-message" name="message" rows="5" maxlength="4000" placeholder="Write your message here..." required></textarea>
+        </div>
+        <button type="submit" class="download-btn feedback-submit" id="feedback-submit">SEND</button>
+        <p class="feedback-status" id="feedback-status" role="status"></p>
+      </form>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="container">
@@ -171,6 +202,91 @@
     setLatestDownload('dl-spectro', 'Spectro-');
     setLatestDownload('dl-tranceg', 'TranceG-');
     setLatestDownload('Cubase tools', 'Cubase-tools');
+
+    // ─── Feedback form (Web3Forms) ───
+    // Los envíos llegan al correo configurado en Web3Forms.
+    // Esta key solo permite ENVIAR mensajes; nunca expone la casilla de destino.
+    const FEEDBACK_ACCESS_KEY = 'e78047a0-6ec5-4d43-9f5b-4a7cb570951c'; // ← reemplazar por tu Access Key de https://web3forms.com
+
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackStatus = document.getElementById('feedback-status');
+    const feedbackSubmit = document.getElementById('feedback-submit');
+
+    function openFeedback() {
+      feedbackModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('fb-title').focus(), 50);
+    }
+
+    function closeFeedback() {
+      feedbackModal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('feedback-open').addEventListener('click', openFeedback);
+    document.getElementById('feedback-close').addEventListener('click', closeFeedback);
+    feedbackModal.querySelector('[data-close-feedback]').addEventListener('click', closeFeedback);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !feedbackModal.hidden) closeFeedback();
+    });
+
+    feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const titleField = document.getElementById('fb-title');
+      const emailField = document.getElementById('fb-email');
+      const messageField = document.getElementById('fb-message');
+      const title = titleField.value.trim();
+      const email = emailField.value.trim();
+      const message = messageField.value.trim();
+      const botcheck = feedbackForm.querySelector('.feedback-honeypot');
+
+      if (!title || !message) {
+        feedbackStatus.textContent = 'Please fill in the title and the message.';
+        feedbackStatus.className = 'feedback-status error';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        feedbackStatus.textContent = 'Please enter a valid email address.';
+        feedbackStatus.className = 'feedback-status error';
+        return;
+      }
+
+      feedbackSubmit.disabled = true;
+      feedbackStatus.textContent = 'Sending...';
+      feedbackStatus.className = 'feedback-status';
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: FEEDBACK_ACCESS_KEY,
+            subject: 'Feedback: ' + title,
+            from_name: 'DidiPlugins Feedback',
+            botcheck: botcheck ? botcheck.checked : false,
+            title: title,
+            email: email,
+            message: message
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          feedbackStatus.textContent = 'Thank you! Your feedback has been sent.';
+          feedbackStatus.className = 'feedback-status success';
+          feedbackForm.reset();
+          setTimeout(closeFeedback, 1800);
+        } else {
+          throw new Error(data.message || 'Failed to send.');
+        }
+      } catch (err) {
+        feedbackStatus.textContent = 'Something went wrong. Please try again later.';
+        feedbackStatus.className = 'feedback-status error';
+      } finally {
+        feedbackSubmit.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>

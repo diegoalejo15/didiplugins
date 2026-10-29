@@ -36,15 +36,16 @@
             <div class="plugin-info">
               <h3 class="plugin-name">BOARD</h3>
               <p class="plugin-description">
-                VST3 Grid Hotkey Plugin. A customizable grid interface for triggering keyboard shortcuts and hotkeys directly in your DAW. Assign letters, numbers, function keys, and modifier combinations to each cell for instant, one-click access.
+                VST3 Grid Hotkey Plugin. A customizable grid interface for triggering keyboard shortcuts and hotkeys directly in your DAW. Assign letters, numbers, function keys, and modifier combinations to each cell for instant, one-click access. New in 2.0: add FX plugins directly to the selected track.
               </p>
               <ul class="plugin-features">
                 <li>Grid up to 30x30 cells</li>
                 <li>Full key combo support (Ctrl+Alt+G, etc.)</li>
+                <li>Add FX plugins to the selected track</li>
                 <li>Undo/Redo, presets, color themes</li>
               </ul>
               <div class="plugin-meta">
-                <span class="plugin-version">Version 1.8.0</span>
+                <span class="plugin-version">Version 2.0</span>
                 <a href="#" id="dl-board" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
@@ -65,7 +66,7 @@
                 <li>Scene system, setlists, MIDI &amp; automation</li>
               </ul>
               <div class="plugin-meta">
-                <span class="plugin-version">Version 1.6</span>
+                <span class="plugin-version">Version 1.55</span>
                 <a href="#" id="dl-namsound" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
@@ -133,6 +134,69 @@
               <div class="plugin-meta">
                 <span class="plugin-version">Version 1.0.0</span>
                 <a href="#" id="Cubase tools" class="download-btn">DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="plugin-card">
+            <div class="plugin-image">
+              <img src="Cubase crash analyst.png" alt="Cubase Crash Analyst" class="plugin-img">
+            </div>
+            <div class="plugin-info">
+              <h3 class="plugin-name">CUBASE CRASH ANALYST</h3>
+              <p class="plugin-description">
+                Crash dump analyzer for Cubase Pro. Opens Windows minidumps from Cubase crashes, rebuilds the call stack without symbols and points to the exact plug-in or module that failed (module + offset + exception code in plain language). Generates a diagnosis with evidence, priorities and recommended steps, plus a full HTML report you can share. Bilingual interface (English / Spanish).
+              </p>
+              <ul class="plugin-features">
+                <li>Parses .dmp minidumps, no symbols needed</li>
+                <li>Names the guilty plug-in with version &amp; offset</li>
+                <li>HTML report export &amp; error message database</li>
+              </ul>
+              <div class="plugin-meta">
+                <span class="plugin-version">Version 1.0</span>
+                <a href="#" id="dl-crashanalyst" class="download-btn">DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="plugin-card">
+            <div class="plugin-image">
+              <img src="Fills.png" alt="Fills Plugin" class="plugin-img">
+            </div>
+            <div class="plugin-info">
+              <h3 class="plugin-name">FILLS</h3>
+              <p class="plugin-description">
+                Drum fill generator VST3. Captures a bar of your drum track from Cubase (or drags a WAV/MIDI in), keeps the loop intact and appends a generated fill matched to the loop's groove and detected genre (Rock, Pop, Metal, Funk, Jazz, Latin and more). Five fill styles with live swing, build and humanize, editable grid with locked notes and 20 levels of undo.
+              </p>
+              <ul class="plugin-features">
+                <li>Host-synced capture &amp; audition from Cubase</li>
+                <li>MIDI maps for EZdrummer 3, SD3, AD2, SS 5, GA 5...</li>
+                <li>WAV/MIDI export &amp; drag-and-drop, no demo limits</li>
+              </ul>
+              <div class="plugin-meta">
+                <span class="plugin-version">Version 1.7</span>
+                <a href="#" id="dl-fills" class="download-btn">DOWNLOAD</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="plugin-card">
+            <div class="plugin-image">
+              <img src="All chords.png" alt="All Chords" class="plugin-img">
+            </div>
+            <div class="plugin-info">
+              <h3 class="plugin-name">ALL CHORDS</h3>
+              <p class="plugin-description">
+                Guitar chord finder. Draw any shape on a realistic fretboard to identify the chord instantly, or ask for one of 12 roots × 35 chord types and see every way to play it as chart-style diagrams, filtered by number of strings and fret position. Includes inversions, relative chords, and a 2,040-voicing catalog validated against the printed chord book.
+              </p>
+              <ul class="plugin-features">
+                <li>Identify shapes on a 15-fret maple neck</li>
+                <li>35 chord types, 12 roots, inversions &amp; relatives</li>
+                <li>2,040 voicing catalog, no install, no server</li>
+              </ul>
+              <div class="plugin-meta">
+                <span class="plugin-version">Version 1.0</span>
+                <a href="#" id="dl-allchords" class="download-btn">DOWNLOAD</a>
               </div>
             </div>
           </div>
@@ -210,6 +274,9 @@
     setLatestDownload('dl-spectro', 'Spectro-');
     setLatestDownload('dl-tranceg', 'TranceG-');
     setLatestDownload('Cubase tools', 'Cubase-tools');
+    setLatestDownload('dl-crashanalyst', 'Cubase-crash-analyst-');
+    setLatestDownload('dl-fills', 'Fills-');
+    setLatestDownload('dl-allchords', 'All-chords-');
 
     // ─── Feedback form (Web3Forms) ───
     // Los envíos llegan al correo configurado en Web3Forms.
